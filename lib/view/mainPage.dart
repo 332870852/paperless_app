@@ -6,6 +6,7 @@ import 'package:paperless_app/bloc/bottomBar_event.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:paperless_app/bloc/counter_event.dart';
 import 'package:paperless_app/fragment/ablertDialog.dart';
+import 'package:paperless_app/service/FileService.dart';
 import 'filePage.dart';
 import 'meetingPage.dart';
 import 'mycenterPage.dart';
@@ -37,6 +38,10 @@ class _MainPageState extends State<MainPage> {
     _currentIndex = 0;
     counterBloc.counter.listen((onData){
       rootIndex=onData;
+    });
+
+    FileService.getUserRootD().then((onValue){///加载文件页的初始数据
+      srcData = onValue.fileInfoList;
     });
   }
 

@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:dio/src/response.dart';
 import 'package:flutter/material.dart';
 import 'package:paperless_app/bloc/FileItem_event.dart';
@@ -41,7 +42,7 @@ class _FilePageState extends State<FilePage> with AutomaticKeepAliveClientMixin{
 
   //TODO 测试数据
   //testFileData testdata = testFileData.mock();
-   List<FileInfo> srcData = [];
+  // List<FileInfo> srcData = [];
 
   ///当前文件页
   int rootIndex = 0;
@@ -107,6 +108,7 @@ class _FilePageState extends State<FilePage> with AutomaticKeepAliveClientMixin{
       _provider.insert(info);
     }).catchError((onError) {
       print("http 请求失败${onError}");
+      Fluttertoast.showToast(msg: '${onError.toString()}');
       ///TODO 加载本地数据库
       _provider.getRootAll('null').then((onValue) {
         fileItemBloc.counterEventSink

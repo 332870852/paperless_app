@@ -10,6 +10,6 @@ final BottomBloc bloc=BottomBloc(); ///
 final FileItemBloc fileItemBloc= FileItemBloc();
 final CounterBloc counterBloc=CounterBloc();///文件页计数
 
-//List<FileInfo> srcData = [];
+List<FileInfo> srcData = [];
 ///选择的文件数
 List<FileInfo> fileList = [];
