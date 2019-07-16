@@ -12,11 +12,12 @@ A new Flutter application.
 # 当前Flutter项目进度
   目前flutter项目正在开发app上的文件管理部分，包括文件增删成功、新建、重命名、批量上传下载等...
 ## 微信小程序效果(部分)
-![image1](http://118.24.89.101:8080/pagess/wx1.jpg)
-![image2](http://118.24.89.101:8080/pagess/wx2.jpg)
-![image3](http://118.24.89.101:8080/pagess/wx3.jpg)
-![image4](http://118.24.89.101:8080/pagess/wx4.jpg)
-![image5](http://118.24.89.101:8080/pagess/wx5.jpg)
+<img src="http://118.24.89.101:8080/pagess/wx1.jpg" width="30%" height="50%" />
+<img src="http://118.24.89.101:8080/pagess/wx2.jpg" width="30%" height="50%" />
+<img src="http://118.24.89.101:8080/pagess/wx3.jpg" width="30%" height="50%" />
+<img src="http://118.24.89.101:8080/pagess/wx4.jpg" width="30%" height="50%" />
+<img src="http://118.24.89.101:8080/pagess/wx5.jpg" width="30%" height="50%" />
+<img src="http://118.24.89.101:8080/pagess/wx6.jpg" width="30%" height="50%" />
 ## Flutter进度效果
 ![image6](http://118.24.89.101:8080/pagess/1.jpg)
 ![image7](http://118.24.89.101:8080/pagess/2.jpg)
