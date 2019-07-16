@@ -12,12 +12,14 @@ A new Flutter application.
 # 当前Flutter项目进度
   目前flutter项目正在开发app上的文件管理部分，包括文件增删成功、新建、重命名、批量上传下载等...
 ## 微信小程序效果(部分)
-<img src="http://118.24.89.101:8080/pagess/wx1.jpg" width="30%" height="50%" />
-<img src="http://118.24.89.101:8080/pagess/wx2.jpg" width="30%" height="50%" />
-<img src="http://118.24.89.101:8080/pagess/wx3.jpg" width="30%" height="50%" />
-<img src="http://118.24.89.101:8080/pagess/wx4.jpg" width="30%" height="50%" />
-<img src="http://118.24.89.101:8080/pagess/wx5.jpg" width="30%" height="50%" />
-<img src="http://118.24.89.101:8080/pagess/wx6.jpg" width="30%" height="50%" />
+<div>
+<img src="http://118.24.89.101:8080/pagess/wx1.jpg" width="30%" height="50%"/>
+<img src="http://118.24.89.101:8080/pagess/wx2.jpg" width="30%" height="50%"/>
+<img src="http://118.24.89.101:8080/pagess/wx3.jpg" width="30%" height="50%"/>
+<img src="http://118.24.89.101:8080/pagess/wx4.jpg" width="30%" height="50%"/>
+<img src="http://118.24.89.101:8080/pagess/wx5.jpg" width="30%" height="50%"/>
+<img src="http://118.24.89.101:8080/pagess/wx6.jpg" width="30%" height="50%"/>
+</div>
 
 ## Flutter进度效果
 ![image6](http://118.24.89.101:8080/pagess/1.jpg)
