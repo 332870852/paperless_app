@@ -92,29 +92,31 @@ class _FilePageState extends State<FilePage> with AutomaticKeepAliveClientMixin{
   @override
   void initState() {
     super.initState();
-    FileService.getUserRootD().then((onValue) {
-      //print("收到数据${onValue}");
-      FileInfo info = FileInfo(
-          fileId: onValue.id,
-          fileName: onValue.text,
-          fileType: 0,
-          filePath: onValue.path,
-          treenodeId: onValue.parentId,
-          FileOwnerId: onValue.uid);
-      // List<FileInfo> list = onValue.fileInfoList;
-      // list.add(info);
-      //print("_pro ${list.length}");
-      _provider.insertAll(onValue.fileInfoList);
-      _provider.insert(info);
-    }).catchError((onError) {
-      print("http 请求失败${onError}");
-      Fluttertoast.showToast(msg: '${onError.toString()}');
-      ///TODO 加载本地数据库
-      _provider.getRootAll('null').then((onValue) {
-        fileItemBloc.counterEventSink
-            .add(FileAddEvent(data: srcData = onValue));
+    if(srcData.length<1){
+      FileService.getUserRootD().then((onValue) {
+        //print("收到数据${onValue}");
+        FileInfo info = FileInfo(
+            fileId: onValue.id,
+            fileName: onValue.text,
+            fileType: 0,
+            filePath: onValue.path,
+            treenodeId: onValue.parentId,
+            FileOwnerId: onValue.uid);
+        // List<FileInfo> list = onValue.fileInfoList;
+        // list.add(info);
+        //print("_pro ${list.length}");
+        _provider.insertAll(onValue.fileInfoList);
+        _provider.insert(info);
+      }).catchError((onError) {
+        print("http 请求失败${onError}");
+        Fluttertoast.showToast(msg: '${onError.toString()}');
+        ///TODO 加载本地数据库
+        _provider.getRootAll('null').then((onValue) {
+          fileItemBloc.counterEventSink
+              .add(FileAddEvent(data: srcData = onValue));
+        });
       });
-    });
+    }
 
     bloc.counter.listen((onData) {
       if (!mounted) return;
