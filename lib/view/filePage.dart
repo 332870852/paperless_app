@@ -92,7 +92,7 @@ class _FilePageState extends State<FilePage> with AutomaticKeepAliveClientMixin{
   @override
   void initState() {
     super.initState();
-    if(srcData.length<1){
+    if(srcData!=null){
       FileService.getUserRootD().then((onValue) {
         //print("收到数据${onValue}");
         FileInfo info = FileInfo(

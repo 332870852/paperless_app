@@ -36,7 +36,7 @@ class FileService {
       return treeNode;
     } else {
       ///失败原因
-      throw responseModel.errors[0];
+      throw responseModel.errors[0];                                                                                                                                                            throw responseModel.errors[0];
     }
   }
 

@@ -23,25 +23,30 @@ class MainPage extends StatefulWidget {
     HistoryPage(),
     MyCenterPage(),
   ];
-
   ///底部页面数组
 }
+
 
 class _MainPageState extends State<MainPage> {
   int _currentIndex;
   ///文件页的index
   int rootIndex=0;
   ///当前所在页面索引
-
+  var body;
   @override
   void initState() {
     _currentIndex = 0;
     counterBloc.counter.listen((onData){
       rootIndex=onData;
     });
+//    _WidgetOptions.children..add(MeetingPage())..add(FilePage())..add(HistoryPage())..add(MyCenterPage());
+//    _WidgetOptions.index=_currentIndex;
+    body= IndexedStack(children:widget._WidgetOptions, index: _currentIndex);
 
     FileService.getUserRootD().then((onValue){///加载文件页的初始数据
       srcData = onValue.fileInfoList;
+    }).catchError((onError){
+      srcData=[];
     });
   }
 
@@ -185,7 +190,7 @@ class _MainPageState extends State<MainPage> {
                 return;
               }
               var rename=fileList[0].fileName;
-              var flag = await showDialog(
+               await showDialog(
                   context: context,
                   builder: (context) => AlberInfoDialog(
                     title: '重命名',
@@ -249,7 +254,8 @@ class _MainPageState extends State<MainPage> {
             backgroundColor: Colors.grey[100],
             body: Builder(
               builder: (context) =>
-                  widget._WidgetOptions.elementAt(_currentIndex),
+            IndexedStack(children: widget._WidgetOptions,
+           index: _currentIndex,),
             ),
 
             /// 添加底部导航栏
