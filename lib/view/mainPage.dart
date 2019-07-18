@@ -32,17 +32,12 @@ class _MainPageState extends State<MainPage> {
   ///文件页的index
   int rootIndex=0;
   ///当前所在页面索引
-  var body;
   @override
   void initState() {
     _currentIndex = 0;
     counterBloc.counter.listen((onData){
       rootIndex=onData;
     });
-//    _WidgetOptions.children..add(MeetingPage())..add(FilePage())..add(HistoryPage())..add(MyCenterPage());
-//    _WidgetOptions.index=_currentIndex;
-    body= IndexedStack(children:widget._WidgetOptions, index: _currentIndex);
-
     FileService.getUserRootD().then((onValue){///加载文件页的初始数据
       srcData = onValue.fileInfoList;
     }).catchError((onError){
