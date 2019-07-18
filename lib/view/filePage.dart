@@ -9,6 +9,7 @@ import 'package:paperless_app/data/HttpRequest.dart';
 import 'package:paperless_app/data/ResponseModel.dart';
 import 'package:paperless_app/domain/TreeNode.dart';
 import 'package:paperless_app/service/FileService.dart';
+import 'package:paperless_app/view/fileview/addFilePage.dart';
 import '../constants.dart' show Constants, AppColors;
 import '../fragment/filePage/DropPanelMenu.dart';
 import '../fragment/filePage/popup_window.dart';
@@ -20,11 +21,14 @@ import 'package:fluttertoast/fluttertoast.dart';
 ///文件页
 class FilePage extends StatefulWidget {
   static List<FileInfo> testoldData;
-  FilePage({Key key}):super(key:key);
+
+  FilePage({Key key}) : super(key: key);
+
   _FilePageState createState() => _FilePageState();
 }
 
-class _FilePageState extends State<FilePage> with AutomaticKeepAliveClientMixin{
+class _FilePageState extends State<FilePage>
+    with AutomaticKeepAliveClientMixin {
   bool isselected;
   FileInfoProvider _provider = new FileInfoProvider();
 
@@ -34,7 +38,7 @@ class _FilePageState extends State<FilePage> with AutomaticKeepAliveClientMixin{
   bool fileselected = false;
 
   ///要刷新的页面文件夹id
-  var refreshId = 0;
+  //var refreshId = 0;
 
   ///是否弹出下拉分类
   ///选择的文件
@@ -92,7 +96,7 @@ class _FilePageState extends State<FilePage> with AutomaticKeepAliveClientMixin{
   @override
   void initState() {
     super.initState();
-    if(srcData!=null){
+    if (srcData == null) {
       FileService.getUserRootD().then((onValue) {
         //print("收到数据${onValue}");
         FileInfo info = FileInfo(
@@ -102,9 +106,7 @@ class _FilePageState extends State<FilePage> with AutomaticKeepAliveClientMixin{
             filePath: onValue.path,
             treenodeId: onValue.parentId,
             FileOwnerId: onValue.uid);
-        // List<FileInfo> list = onValue.fileInfoList;
-        // list.add(info);
-        //print("_pro ${list.length}");
+        refreshId=onValue.id;
         _provider.insertAll(onValue.fileInfoList);
         _provider.insert(info);
       }).catchError((onError) {
@@ -149,7 +151,7 @@ class _FilePageState extends State<FilePage> with AutomaticKeepAliveClientMixin{
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);//必须添加
+    super.build(context); //必须添加
     var nextleading = IconButton(
         icon: Icon(
           Icons.arrow_back_ios,
@@ -209,6 +211,17 @@ class _FilePageState extends State<FilePage> with AutomaticKeepAliveClientMixin{
             ),
             onPressed: () {
               debugPrint("点击了添加按钮");
+              Navigator.push(context, PageRouteBuilder(pageBuilder:
+                  (BuildContext context, Animation animation,
+                      Animation secondaryAnimation) {
+                return SlideTransition(
+                  position: Tween<Offset>(
+                          begin: Offset(1.0, 0.0), end: Offset(0.0, 0.0))
+                      .animate(CurvedAnimation(
+                          parent: animation, curve: Curves.fastOutSlowIn)),
+                  child: AddFilePage(rootDIndex: refreshId),
+                );
+              }));
             }),
         IconButton(
           icon: Icon(
@@ -377,6 +390,18 @@ class _FilePageState extends State<FilePage> with AutomaticKeepAliveClientMixin{
                           child: FlatButton(
                             onPressed: () {
                               //TODO 上传文件
+                              Navigator.push(context, PageRouteBuilder(pageBuilder:
+                                  (BuildContext context, Animation animation,
+                                  Animation secondaryAnimation) {
+                                return SlideTransition(
+                                  position: Tween<Offset>(
+                                      begin: Offset(1.0, 0.0), end: Offset(0.0, 0.0))
+                                      .animate(CurvedAnimation(
+                                      parent: animation, curve: Curves.fastOutSlowIn)),
+                                  child: AddFilePage(rootDIndex: refreshId),
+                                );
+                              }));
+
                             },
                             child: Text(
                               '上传文件',
@@ -557,6 +582,7 @@ class _FilePageState extends State<FilePage> with AutomaticKeepAliveClientMixin{
                             ///checkbox
                             _cflags[index - 1] = true;
                             issrc_appbar = false;
+
                             ///顶部
                             bloc.counterEventSink.add(TureEvent());
                           }

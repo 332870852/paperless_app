@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:paperless_app/bloc/FileItem_event.dart';
@@ -40,7 +42,7 @@ class FileService {
     }
   }
 
-  ///
+  ///指定文件夹下列表
   static Future<TreeNode> getUserTrerNodes({@required int tid}) async{
     Map<String, String> map=new Map();
     map.putIfAbsent('tid', ()=>tid.toString());
@@ -63,6 +65,49 @@ class FileService {
       }
       fileItemBloc.counterEventSink
           .add(FileAddEvent(data: treeNode.fileInfoList)); //
+      return treeNode;
+    } else {
+      ///失败原因
+      throw responseModel.errors[0];
+    }
+  }
+
+  /// 用户文件夹重命名
+  static Future<TreeNode> frename({@required String rename})async{
+
+    Map<String, String> map=new Map();
+    map.putIfAbsent('rename', ()=>rename);
+    Response respData = await get(method: method+'/user/frename',requestmap: map);
+    ResponseModel responseModel = ResponseModel.fromJson(respData.data);
+    ///请求成功
+    if (responseModel.code == 1) {
+      print(responseModel);
+      TreeNode treeNode = TreeNode.fromJson(responseModel.data);
+
+    return treeNode;
+    } else {
+      ///失败原因
+      throw responseModel.errors[0];
+    }
+  }
+
+
+  static Future<TreeNode> uploadFiles({@required String tid,File file})async{
+
+    print(tid);
+    String path = file.path;
+    var name = path.substring(path.lastIndexOf("/") + 1, path.length);
+
+    Map<String, dynamic> map=new Map();
+    map.putIfAbsent('tid', ()=>tid.toString());
+    map.putIfAbsent('file', ()=>new UploadFileInfo(file,name));
+
+    Response respData = await post(method: method+'user/uploadFiles',requestmap: map);
+    ResponseModel responseModel = ResponseModel.fromJson(respData.data);
+    if (responseModel.code == 1) {
+      print(responseModel);
+      TreeNode treeNode = TreeNode.fromJson(responseModel.data);
+      print("上传成功  ${treeNode}");
       return treeNode;
     } else {
       ///失败原因

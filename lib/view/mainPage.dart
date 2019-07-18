@@ -23,26 +23,34 @@ class MainPage extends StatefulWidget {
     HistoryPage(),
     MyCenterPage(),
   ];
+
   ///底部页面数组
 }
 
-
 class _MainPageState extends State<MainPage> {
   int _currentIndex;
+
   ///文件页的index
-  int rootIndex=0;
+  int rootIndex = 0;
+
   ///当前所在页面索引
+  TextEditingController _renameController;
+
+  ///重命名控制器
   @override
   void initState() {
     _currentIndex = 0;
-    counterBloc.counter.listen((onData){
-      rootIndex=onData;
+    counterBloc.counter.listen((onData) {
+      rootIndex = onData;
     });
-    FileService.getUserRootD().then((onValue){///加载文件页的初始数据
+    FileService.getUserRootD().then((onValue) {
+      ///加载文件页的初始数据
       srcData = onValue.fileInfoList;
-    }).catchError((onError){
-      srcData=[];
+      refreshId=onValue.id;
+    }).catchError((onError) {
+      srcData = [];
     });
+    _renameController = TextEditingController();
   }
 
   void _onTapHandler(int index) {
@@ -50,6 +58,12 @@ class _MainPageState extends State<MainPage> {
         () {
       _currentIndex = index;
     });
+  }
+
+  @override
+  void dispose() {
+    _renameController.dispose();
+    super.dispose();
   }
 
   @override
@@ -147,8 +161,9 @@ class _MainPageState extends State<MainPage> {
                       builder: (context) => AlberInfoDialog(
                             title: '删除文件',
                             content: Text(
-                                fileList[0].fileName,
-                              style: TextStyle(color: Colors.grey, fontSize: 15.0),
+                              fileList[0].fileName,
+                              style:
+                                  TextStyle(color: Colors.grey, fontSize: 15.0),
                             ),
                             okbtn: '确认删除',
                           ),
@@ -178,38 +193,58 @@ class _MainPageState extends State<MainPage> {
           ),
           Expanded(
               child: FlatButton(
-            onPressed: () async{
+            onPressed: () async {
               //TODO 重命名
               if (fileList.length > 1) {
                 Fluttertoast.showToast(msg: '不能一次性重命名两个文件');
                 return;
               }
-              var rename=fileList[0].fileName;
-               await showDialog(
-                  context: context,
-                  builder: (context) => AlberInfoDialog(
-                    title: '重命名',
-                    content: TextField(
-                      textDirection: TextDirection.ltr,
-                      maxLines: 1,
-                      decoration: InputDecoration(
-                        filled: true,
-                        border: InputBorder.none,
-                        hintStyle:
-                        TextStyle(color: Colors.grey, fontSize: 18.0),
-                        suffixIcon: IconButton(icon: Icon(Icons.clear), onPressed: (){
-                          rename="";
-                        })
-                      ),
-                      controller: TextEditingController.fromValue(TextEditingValue(
-                        text: rename,
-                        selection: TextSelection.fromPosition(TextPosition(affinity: TextAffinity.downstream,
-                        offset: fileList[0].fileName.length))
-                      )),
-                    ),
-                    okbtn: '确认修改',
-                  ),
-                  barrierDismissible: false);
+              var rename = fileList[0].fileName;
+              _renameController.text = rename;
+              await showDialog(
+                      context: context,
+                      builder: (context) => AlberInfoDialog(
+                            title: '重命名',
+                            content: TextFormField(
+                              textDirection: TextDirection.ltr,
+                              maxLines: 1,
+                              decoration: InputDecoration(
+                                  filled: true,
+                                  border: InputBorder.none,
+                                  focusedBorder: InputBorder.none,
+                                  enabledBorder: InputBorder.none,
+                                  errorBorder: InputBorder.none,
+                                  hintStyle: TextStyle(
+                                      color: Colors.grey, fontSize: 18.0),
+                                  suffixIcon: IconButton(
+                                      icon: Icon(Icons.highlight_off),
+                                      onPressed: () {
+                                        _renameController.clear();
+                                      })),
+                              controller: _renameController,
+                              validator: (String value) {
+                                formDE['dname'] = value;
+                                print(value);
+                                return value.trim().length > 5
+                                    ? null
+                                    : '密码不能少于6位';
+                              },
+                              onSaved: (value){
+                                formDE['dname'] = value;
+                                print("save::${value}");
+                              },
+                              onEditingComplete: (){
+                                print("...........0");
+                              },
+                            ),
+                            okbtn: '确认修改',
+                          ),
+                      barrierDismissible: false)
+                  .then((onValue) {
+                print(onValue);
+                print(formDE);
+              });
+              print(formDE);
             },
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -248,9 +283,10 @@ class _MainPageState extends State<MainPage> {
           child: Scaffold(
             backgroundColor: Colors.grey[100],
             body: Builder(
-              builder: (context) =>
-            IndexedStack(children: widget._WidgetOptions,
-           index: _currentIndex,),
+              builder: (context) => IndexedStack(
+                    children: widget._WidgetOptions,
+                    index: _currentIndex,
+                  ),
             ),
 
             /// 添加底部导航栏
@@ -268,13 +304,15 @@ class _MainPageState extends State<MainPage> {
             ),
           ),
         ),
-        onWillPop: (){
-         if(_currentIndex==1&&rootIndex>0){///文件页，并且不是首页
-           print("***tt、、${rootIndex}");
-           fileItemBloc.counterEventSink.add(FileAddEvent(data: FilePage.testoldData));
-          counterBloc.counterEventSink.add(DecEvent());
-         }else
-          return _onwillPop(context);
+        onWillPop: () {
+          if (_currentIndex == 1 && rootIndex > 0) {
+            ///文件页，并且不是首页
+            print("***tt、、${rootIndex}");
+            fileItemBloc.counterEventSink
+                .add(FileAddEvent(data: FilePage.testoldData));
+            counterBloc.counterEventSink.add(DecEvent());
+          } else
+            return _onwillPop(context);
         });
   }
 
@@ -302,3 +340,7 @@ class _MainPageState extends State<MainPage> {
             ));
   }
 }
+
+Map<String, dynamic> formDE = {
+  'dname': null,
+};

@@ -10,6 +10,9 @@ final BottomBloc bloc=BottomBloc(); ///
 final FileItemBloc fileItemBloc= FileItemBloc();
 final CounterBloc counterBloc=CounterBloc();///文件页计数
 
+///初始文件列表
 List<FileInfo> srcData = [];
 ///选择的文件数
 List<FileInfo> fileList = [];
+///初始文件夹id
+var refreshId = 0;
