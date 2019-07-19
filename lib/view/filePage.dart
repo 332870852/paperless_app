@@ -27,8 +27,7 @@ class FilePage extends StatefulWidget {
   _FilePageState createState() => _FilePageState();
 }
 
-class _FilePageState extends State<FilePage>
-    with AutomaticKeepAliveClientMixin {
+class _FilePageState extends State<FilePage> with AutomaticKeepAliveClientMixin {
   bool isselected;
   FileInfoProvider _provider = new FileInfoProvider();
 
@@ -152,6 +151,7 @@ class _FilePageState extends State<FilePage>
   @override
   Widget build(BuildContext context) {
     super.build(context); //必须添加
+
     var nextleading = IconButton(
         icon: Icon(
           Icons.arrow_back_ios,
@@ -471,8 +471,7 @@ class _FilePageState extends State<FilePage>
                     }
                     ////////////////////
                     return GestureDetector(
-                      child: Container(
-                          child: Stack(
+                      child: Stack(
                         children: <Widget>[
                           FileItemView(
                             fileInfo: mockFileData[index - 1],
@@ -480,37 +479,40 @@ class _FilePageState extends State<FilePage>
                           issrc_appbar == true
                               ? SizedBox()
                               : Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: <Widget>[
-                                    Checkbox(
-                                        value: _cflags[index - 1],
-                                        onChanged: (value) {
-                                          print(_cflags[index - 1]);
-                                          setState(() {
-                                            _cflags[index - 1] = value;
-                                            if (value) {
-                                              fileList
-                                                  .add(mockFileData[index - 1]);
-                                              //fileItemBloc.counterEventSink.add(FileAddEvent(data: fileList));
-                                              ///fileList没有数据时候，退出多选模式
-                                            } else {
-                                              fileList.remove(
-                                                  mockFileData[index - 1]);
-                                              //fileItemBloc.counterEventSink.add(FileAddEvent(data: fileList));
-                                            }
-                                            if (fileList.length == 0) {
-                                              issrc_appbar = true;
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: <Widget>[
+                              Checkbox(
+                                  value: _cflags[index - 1],
+                                  onChanged: (value) {
+                                    print(_cflags[index - 1]);
+                                    setState(() {
+                                      _cflags[index - 1] = value;
+                                      if (value) {
+                                        fileList
+                                            .add(mockFileData[index - 1]);
+                                        //fileItemBloc.counterEventSink.add(FileAddEvent(data: fileList));
+                                        ///fileList没有数据时候，退出多选模式
+                                      } else {
+                                        fileList.remove(
+                                            mockFileData[index - 1]);
+                                        //fileItemBloc.counterEventSink.add(FileAddEvent(data: fileList));
+                                      }
+                                      if (fileList.length == 0) {
+                                        issrc_appbar = true;
 
-                                              ///顶部
-                                              bloc.counterEventSink
-                                                  .add(FalseEvent());
-                                            }
-                                          });
-                                        })
-                                  ],
-                                ),
+                                        ///顶部
+                                        bloc.counterEventSink
+                                            .add(FalseEvent());
+                                      }
+                                    });
+                                  })
+                            ],
+                          ),
                         ],
-                      )),
+                      ),
+                      onTapUp: (TapUpDetails){
+                        print("按下 ${TapUpDetails.globalPosition}");
+                      },
                       onTap: () async {
                         //TODO 单击文件
                         debugPrint("单击文件");

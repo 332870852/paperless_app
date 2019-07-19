@@ -38,9 +38,9 @@ class _FileItemViewState extends State<FileItemView> {
       padding: EdgeInsets.only(left: 10.0, right: 15.0, bottom: 10.0, top: 8.0),
       decoration: BoxDecoration(
           border: Border(
-        bottom: BorderSide(
-            color: Color(AppColors.DividerColor), width: Constants.DividerWith),
-      )),
+            bottom: BorderSide(
+                color: Color(AppColors.DividerColor), width: Constants.DividerWith),
+          )),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
@@ -55,6 +55,8 @@ class _FileItemViewState extends State<FileItemView> {
                 Text(
                   fileInfo.fileName,
                   style: AppStyle.TitleStyle,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
                 SizedBox(
                   height: 5.0,

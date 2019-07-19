@@ -27,6 +27,9 @@ dependencies:
   fluttertoast: ^2.1.1
   rxdart: ^0.18.1
   image_picker: ^0.4.12+1  #拍照和选取照片插件
+  multi_image_picker: ^1.0.53 #图片多选插件
+  photo: ^0.2.0
+  file_picker: ^1.3.8 #文件选择
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

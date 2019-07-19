@@ -1,18 +1,29 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:paperless_app/service/FileService.dart';
+import 'package:multi_image_picker/multi_image_picker.dart';
+import 'package:photo/photo.dart';
+import 'package:photo_manager/photo_manager.dart';
+import 'package:file_picker/file_picker.dart';
+
 ///选择上传文件夹页
 class AddFilePage extends StatefulWidget {
-  final int rootDIndex;///当前文件夹id
-  AddFilePage({Key key, @required this.rootDIndex}):super(key:key);
+  final int rootDIndex;
+
+  ///当前文件夹id
+  AddFilePage({Key key, @required this.rootDIndex}) : super(key: key);
+
   _AddFilePageState createState() => _AddFilePageState();
 }
 
 class _AddFilePageState extends State<AddFilePage> {
-  File _image; ///用户选择的照片
+  //File _image;
+  List<File> photoList = []; //用户选择的图片
+
+
+  ///用户选择的照片
 
   @override
   Widget build(BuildContext context) {
@@ -70,11 +81,25 @@ class _AddFilePageState extends State<AddFilePage> {
                               ],
                             ),
                           ),
-                          onTap: () async{
+                          onTap: () async {
                             debugPrint("点击了照片");
                             print(widget.rootDIndex);
-                             choosePic(imageSource: ImageSource.gallery,tid: widget.rootDIndex.toString());
-                             Navigator.pop(context);
+//                              choosePic(
+//                                  imageSource: ImageSource.gallery,
+//                                  tid: widget.rootDIndex.toString());
+                            await _pickImage(pickType: PickType.onlyImage).then((onValue) {
+                              print("上传。。。。。。${onValue}");
+                              if(onValue!=null&&onValue.length>0)
+                              FileService.uploadFiles(
+                                      tid: widget.rootDIndex.toString(),
+                                      files: onValue)
+                                  .then((onValue) {
+                                Fluttertoast.showToast(msg: '上传成功');
+                              }).catchError((onError) {
+                                Fluttertoast.showToast(msg: onError.toString());
+                              });
+                            });
+                            Navigator.pop(context);
                           },
                         ),
                       ),
@@ -104,6 +129,8 @@ class _AddFilePageState extends State<AddFilePage> {
                             ),
                             onTap: () {
                               debugPrint("点击了视频");
+                              chooseMulti_Video();
+                              Navigator.pop(context);
                             },
                           )),
                     ),
@@ -160,6 +187,7 @@ class _AddFilePageState extends State<AddFilePage> {
                             ),
                             onTap: () {
                               debugPrint("点击了音乐");
+                              // pickAsset();
                             },
                           )),
                     ),
@@ -243,16 +271,81 @@ class _AddFilePageState extends State<AddFilePage> {
         ));
   }
 
-  void choosePic({@required ImageSource imageSource, String tid}) async {///从照相机选取图片
-    var image = await ImagePicker.pickImage(source: imageSource);
-    setState(() {
-      _image=image;
+//    void choosePic({@required ImageSource imageSource, String tid}) async {
+//      ///从照相机选取图片
+//      var image = await ImagePicker.pickImage(source: imageSource);
+//      setState(() {
+//        _image = image;
+//      });
+//      print(_image);
+//      FileService.uploadFiles(tid: tid, file: _image).then((onValue) {
+//        Fluttertoast.showToast(msg: '上传成功');
+//      }).catchError((onError) {
+//        Fluttertoast.showToast(msg: onError.toString());
+//      });
+//    }
+
+  Future<List<File>> _pickImage({@required PickType pickType}) async {
+
+    List<AssetEntity> imgList = await PhotoPicker.pickAsset(
+      context: context,
+      /// The following are optional parameters.
+      themeColor: Theme.of(context).primaryColor,
+      // the title color and bottom color
+      padding: 1.0,
+      // item padding
+      dividerColor: Colors.grey,
+      // divider color
+      disableColor: Colors.grey.shade300,
+      // the check box disable color
+      itemRadio: 0.88,
+      // the content item radio
+      maxSelected: 8,
+      // max picker image count
+      provider: I18nProvider.chinese,
+      // i18n provider ,default is chinese. , you can custom I18nProvider or use ENProvider()
+      rowCount: 4,
+      // item row count
+      textColor: Colors.white,
+      // text color
+      thumbSize: 200,
+      // preview thumb size , default is 64
+      sortDelegate: SortDelegate.common,
+      // default is common ,or you make custom delegate to sort your gallery
+      checkBoxBuilderDelegate: DefaultCheckBoxBuilderDelegate(
+        activeColor: Colors.white,
+        unselectedColor: Colors.white,
+      ),
+      // default is DefaultCheckBoxBuilderDelegate ,or you make custom delegate to create checkbox
+      // if you want to build custom loading widget,extends LoadingDelegate [see example/lib/main.dart]
+      pickType: pickType, // all/image/video
+    );
+    return getPhotoFile(imgList);
+  }
+
+  Future<List<File>> getPhotoFile(List<AssetEntity> imgList) async {
+    for (int i = 0; i < imgList.length; i++) {
+      AssetEntity item = imgList[i];
+      File tempFile = await item.file;
+      photoList.add(tempFile);
+    }
+    return photoList;
+  }
+  void chooseMulti_Pic() async {
+    List<File> imageList =
+        await MultiImagePicker.pickImages(maxImages: 10).catchError((onError) {
+      print(onError);
     });
-    print(_image);
-    FileService.uploadFiles(tid:tid,file: _image).then((onValue){
-      Fluttertoast.showToast(msg: '上传成功');
-    }).catchError((onError){
-      Fluttertoast.showToast(msg: onError.toString());
-    });
+    print(imageList);
+  }
+
+  void chooseMulti_Video()async{
+    Map<String,String> filesPaths;
+
+    filesPaths=await FilePicker.getMultiFilePath(type: FileType.VIDEO);
+    List<String> allNames = filesPaths.keys; // List of all file names
+    List<String> allPaths = filesPaths.values; // List of all paths
+    print(allNames);
+    print(allPaths);
   }
 }

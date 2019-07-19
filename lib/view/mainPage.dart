@@ -69,7 +69,7 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     var bottomBar = BottomNavigationBar(
-        fixedColor: Colors.green,
+        fixedColor: Constants.themeData.primaryColor,
         //激活状态的颜色
         currentIndex: _currentIndex,
         //当前激活的按钮索引值
@@ -81,7 +81,7 @@ class _MainPageState extends State<MainPage> {
         items: [
           BottomNavigationBarItem(
             icon: AppIcons.indexIcon,
-            title: Text('首页'),
+            title: Text('首页',),
             activeIcon: AppIcons.indexIcon_selected,
           ),
           BottomNavigationBarItem(

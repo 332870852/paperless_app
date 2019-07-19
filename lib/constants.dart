@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 class Constants {
   static const IconFontFamily = "appIconFont"; ///调用自定义图标
+   static final ThemeData themeData= ThemeData(primarySwatch: Colors.purple,
+      primaryColor: Colors.deepPurple);///全局主题
   static const DividerWith=1.0;
   static const ContactAvatarSize=30.0;
 
@@ -9,19 +11,19 @@ class Constants {
 
 class AppIcons{
   static const indexIcon= Icon(IconData(0xe622,fontFamily: Constants.IconFontFamily),size: 25.0,); ///首页
-  static const indexIcon_selected= Icon(IconData(0xe622,fontFamily: Constants.IconFontFamily),color: Colors.green,size: 25.0,);
+  static const indexIcon_selected= Icon(IconData(0xe622,fontFamily: Constants.IconFontFamily),color: Colors.deepPurple,size: 25.0,);
   static const directoryIcon=Icon(IconData(0xe674,fontFamily: Constants.IconFontFamily),size: 25.0);///文件夹
-  static const directoryIcon_selected=Icon(IconData(0xe674,fontFamily: Constants.IconFontFamily),color: Colors.green,size: 25.0);
+  static const directoryIcon_selected=Icon(IconData(0xe674,fontFamily: Constants.IconFontFamily),color: Colors.deepPurple,size: 25.0);
   static const historyMeetingIcon=Icon(IconData(0xe604,fontFamily: Constants.IconFontFamily),size: 25.0);///历史会议
-  static const historyMeetingIcon_selected=Icon(IconData(0xe604,fontFamily: Constants.IconFontFamily),color: Colors.green,size: 25.0);
+  static const historyMeetingIcon_selected=Icon(IconData(0xe604,fontFamily: Constants.IconFontFamily),color: Colors.deepPurple,size: 25.0);
   static const MyIcon=Icon(IconData(0xe62c,fontFamily: Constants.IconFontFamily),size: 25.0);///个人中心
-  static const MyIcon_selected=Icon(IconData(0xe62c,fontFamily: Constants.IconFontFamily),color: Colors.green,size: 25.0);
+  static const MyIcon_selected=Icon(IconData(0xe62c,fontFamily: Constants.IconFontFamily),color:  Colors.deepPurple,size: 25.0);
 
   static const pictureIcon=Icon(IconData(0xe60f,fontFamily: Constants.IconFontFamily,matchTextDirection: true),size: 30.0,);///照片
   ///未选中
   static const no_selectIcon=Icon(IconData(0xe635,fontFamily: Constants.IconFontFamily),size: 25.0,);
   ///选中
-  static const selectIcon=Icon(IconData(0xe634,fontFamily: Constants.IconFontFamily),size: 25.0,color: Colors.green,);
+  static const selectIcon=Icon(IconData(0xe634,fontFamily: Constants.IconFontFamily),size: 25.0,color:Colors.white,);
 
   ///下载
   static const downloadIcon=Icon(IconData(0xe67f,fontFamily: Constants.IconFontFamily),size: 25.0,color: Colors.white,);
