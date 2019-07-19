@@ -6,7 +6,7 @@ import 'package:paperless_app/service/FileService.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:photo/photo.dart';
 import 'package:photo_manager/photo_manager.dart';
-import 'package:file_picker/file_picker.dart';
+//import 'package:file_picker/file_picker.dart';
 
 ///选择上传文件夹页
 class AddFilePage extends StatefulWidget {
@@ -61,7 +61,7 @@ class _AddFilePageState extends State<AddFilePage> {
                     Expanded(
                       child: new Padding(
                         padding: const EdgeInsets.only(right: 10),
-                        child: GestureDetector(
+                        child: InkWell(
                           child: Container(
                             height: 60,
                             child: Column(
@@ -129,7 +129,7 @@ class _AddFilePageState extends State<AddFilePage> {
                             ),
                             onTap: () {
                               debugPrint("点击了视频");
-                              chooseMulti_Video();
+                              //chooseMulti_Video();
                               Navigator.pop(context);
                             },
                           )),
@@ -342,10 +342,10 @@ class _AddFilePageState extends State<AddFilePage> {
   void chooseMulti_Video()async{
     Map<String,String> filesPaths;
 
-    filesPaths=await FilePicker.getMultiFilePath(type: FileType.VIDEO);
-    List<String> allNames = filesPaths.keys; // List of all file names
-    List<String> allPaths = filesPaths.values; // List of all paths
-    print(allNames);
-    print(allPaths);
+//    filesPaths=await FilePicker.(type: FileType.VIDEO);
+//    List<String> allNames = filesPaths.keys; // List of all file names
+//    List<String> allPaths = filesPaths.values; // List of all paths
+//    print(allNames);
+//    print(allPaths);
   }
 }

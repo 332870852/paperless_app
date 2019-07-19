@@ -470,7 +470,7 @@ class _FilePageState extends State<FilePage> with AutomaticKeepAliveClientMixin 
                       );
                     }
                     ////////////////////
-                    return GestureDetector(
+                    return InkWell(
                       child: Stack(
                         children: <Widget>[
                           FileItemView(
@@ -510,9 +510,6 @@ class _FilePageState extends State<FilePage> with AutomaticKeepAliveClientMixin 
                           ),
                         ],
                       ),
-                      onTapUp: (TapUpDetails){
-                        print("按下 ${TapUpDetails.globalPosition}");
-                      },
                       onTap: () async {
                         //TODO 单击文件
                         debugPrint("单击文件");
