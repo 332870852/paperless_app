@@ -6,7 +6,7 @@ import 'package:paperless_app/service/FileService.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:photo/photo.dart';
 import 'package:photo_manager/photo_manager.dart';
-//import 'package:file_picker/file_picker.dart';
+// import 'package:file_picker/file_picker.dart';
 
 ///选择上传文件夹页
 class AddFilePage extends StatefulWidget {
@@ -35,10 +35,11 @@ class _AddFilePageState extends State<AddFilePage> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
               IconButton(
-                icon: Icon(
-                  Icons.clear,
-                  color: Colors.black,
-                ),
+                icon: CircleAvatar(backgroundColor: Colors.black.withOpacity(0.1),child: Icon(
+          Icons.clear,
+          color: Colors.white,
+        ),),
+                highlightColor: Colors.transparent,
                 onPressed: () {
                   Navigator.pop(context);
                 },
@@ -107,89 +108,23 @@ class _AddFilePageState extends State<AddFilePage> {
                     Expanded(
                       child: new Padding(
                           padding: const EdgeInsets.only(right: 10),
-                          child: GestureDetector(
-                            child: Container(
-                              height: 60,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Image.asset(
-                                    'assets/images/video.png',
-                                    width: 40,
-                                    height: 40,
-                                  ),
-                                  Text(
-                                    '视频',
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            onTap: () {
-                              debugPrint("点击了视频");
-                              //chooseMulti_Video();
-                              Navigator.pop(context);
-                            },
-                          )),
+                          child: zujian(assetImage: 'assets/images/video.png', title: '上传视频',onTap: (){
+                            print('点击了上传视频');
+                          })),
                     ),
                     Expanded(
                       child: new Padding(
                           padding: const EdgeInsets.only(right: 10),
-                          child: GestureDetector(
-                            child: Container(
-                              height: 60,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Image.asset(
-                                    'assets/images/wendang.png',
-                                    width: 40,
-                                    height: 40,
-                                  ),
-                                  Text(
-                                    '文档',
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            onTap: () {
-                              debugPrint("点击了文档");
-                            },
-                          )),
+                          child: zujian(assetImage: 'assets/images/wendang.png', title: '上传文档',onTap: (){
+                            print('点击了上传文档');
+                          })),
                     ),
                     Expanded(
                       child: new Padding(
                           padding: const EdgeInsets.only(right: 10),
-                          child: GestureDetector(
-                            child: Container(
-                              height: 60,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Image.asset(
-                                    'assets/images/music.png',
-                                    width: 40,
-                                    height: 40,
-                                  ),
-                                  Text(
-                                    '音乐',
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            onTap: () {
-                              debugPrint("点击了音乐");
-                              // pickAsset();
-                            },
-                          )),
+                          child: zujian(assetImage: 'assets/images/music.png', title: '上传音乐',onTap: (){
+                            print('点击了上传音乐');
+                          })),
                     ),
                   ],
                 ),
@@ -201,61 +136,23 @@ class _AddFilePageState extends State<AddFilePage> {
                     Expanded(
                       child: new Padding(
                           padding: const EdgeInsets.only(right: 10),
-                          child: GestureDetector(
-                            child: Container(
-                              height: 60,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Image.asset(
-                                    'assets/images/application.png',
-                                    width: 40,
-                                    height: 40,
-                                  ),
-                                  Text(
-                                    '应用',
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            onTap: () {
-                              debugPrint("点击了应用");
-                            },
-                          )),
+                          child: zujian(assetImage: 'assets/images/application.png', title: '上传应用',onTap: (){
+                            debugPrint("点击了应用");
+                          })),
                     ),
                     Expanded(
                       child: new Padding(
                           padding: const EdgeInsets.only(right: 10),
-                          child: GestureDetector(
-                            child: Container(
-                              height: 60,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Image.asset(
-                                    'assets/images/qita.png',
-                                    width: 40,
-                                    height: 40,
-                                  ),
-                                  Text(
-                                    '其他',
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            onTap: () {
-                              debugPrint("点击了其他");
-                            },
-                          )),
+                          child: zujian(assetImage: 'assets/images/qita.png', title: '上传其他文件',onTap: (){
+                            debugPrint("点击了其他文件");
+                          })),
                     ),
                     Expanded(
-                      child: SizedBox(),
+                      child: new Padding(
+                          padding: const EdgeInsets.only(right: 10),
+                          child: zujian(assetImage: 'assets/images/directory.png', title: '新建文件夹',onTap: (){
+                            debugPrint("点击了其他文件");
+                          })),
                     ),
                     Expanded(
                       child: SizedBox(),
@@ -284,6 +181,32 @@ class _AddFilePageState extends State<AddFilePage> {
 //        Fluttertoast.showToast(msg: onError.toString());
 //      });
 //    }
+
+  ///封装组件
+  Widget zujian({@required String assetImage,@required String title,Function onTap}){
+    return InkWell(
+      child: Container(
+        height: 60,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Image.asset(
+              assetImage,
+              width: 40,
+              height: 40,
+            ),
+            Text(
+              title,
+              style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold),
+            ),
+          ],
+        ),
+      ),
+      onTap: onTap,
+    );
+  }
 
   Future<List<File>> _pickImage({@required PickType pickType}) async {
 
@@ -342,7 +265,7 @@ class _AddFilePageState extends State<AddFilePage> {
   void chooseMulti_Video()async{
     Map<String,String> filesPaths;
 
-//    filesPaths=await FilePicker.(type: FileType.VIDEO);
+//    filesPaths=await FilePicker.getMultiFilePath(type: FileType.VIDEO,fileExtension: 'mp4');
 //    List<String> allNames = filesPaths.keys; // List of all file names
 //    List<String> allPaths = filesPaths.values; // List of all paths
 //    print(allNames);

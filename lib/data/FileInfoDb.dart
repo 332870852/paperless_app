@@ -19,7 +19,7 @@ class FileInfoProvider {
   }
 
   /////////////////////业务
-  ///是否已经存在数据 霹雳插入
+  ///是否已经存在数据 插入
   Future<List<int>> insertAll(List<FileInfo> infoList) async {
     db = await open();
     List<int> list = [];
@@ -71,6 +71,20 @@ class FileInfoProvider {
     return null;
   }
 
+  ///批量删除
+  Future<int> deleteAll(List<FileInfo> finfo) async {
+    db = await open();
+    int reslut;
+    for (int i = 0; i < finfo.length; i++) {
+      var f = await getFileInfoById(finfo[i].fileId, finfo[i].fileType);
+      //print("insertAll :${f}");
+      if (f != null) {
+         reslut = await db.delete(tableName, where: "$columnId = ?", whereArgs: [f.fileId]);
+      }
+    }
+    close();
+    return reslut;
+  }
   /////////////////////
 
   /*文件夹id*/ //
@@ -117,7 +131,7 @@ class FileInfoProvider {
           "FileOwnerId",
           "treenodeId"
         ],
-        where: "fileId = ? and fileType = ?",
+        where: "fileId = ? and fileType != ?",
         whereArgs: [fileId, fileType]);
     if (maps.length > 0) {
       return FileInfo.fromJson(maps.first);

@@ -10,7 +10,8 @@ import 'package:paperless_app/data/ResponseModel.dart';
 import 'package:paperless_app/domain/TreeNode.dart';
 import 'package:paperless_app/service/FileService.dart';
 import 'package:paperless_app/view/fileview/addFilePage.dart';
-import '../constants.dart' show Constants, AppColors;
+import 'package:paperless_app/view/fileview/transferFilePage.dart';
+import '../constants.dart' show AppColors, AppIcons, Constants;
 import '../fragment/filePage/DropPanelMenu.dart';
 import '../fragment/filePage/popup_window.dart';
 import '../fragment/filePage/FileItemView.dart';
@@ -27,10 +28,10 @@ class FilePage extends StatefulWidget {
   _FilePageState createState() => _FilePageState();
 }
 
-class _FilePageState extends State<FilePage> with AutomaticKeepAliveClientMixin {
+class _FilePageState extends State<FilePage>
+    with AutomaticKeepAliveClientMixin {
   bool isselected;
   FileInfoProvider _provider = new FileInfoProvider();
-
   ///分类按钮
   bool flag;
   List<bool> popupMenu;
@@ -105,12 +106,13 @@ class _FilePageState extends State<FilePage> with AutomaticKeepAliveClientMixin 
             filePath: onValue.path,
             treenodeId: onValue.parentId,
             FileOwnerId: onValue.uid);
-        refreshId=onValue.id;
+        refreshId = onValue.id;
         _provider.insertAll(onValue.fileInfoList);
         _provider.insert(info);
       }).catchError((onError) {
         print("http 请求失败${onError}");
         Fluttertoast.showToast(msg: '${onError.toString()}');
+
         ///TODO 加载本地数据库
         _provider.getRootAll('null').then((onValue) {
           fileItemBloc.counterEventSink
@@ -137,12 +139,15 @@ class _FilePageState extends State<FilePage> with AutomaticKeepAliveClientMixin 
       setState(() {});
     });
     isselected = false;
-    popupMenu = [true, false, false];
+    popupMenu = [true, false, false, false];
     flag = true;
   }
 
   @override
   void dispose() {
+    if(_provider.db.isOpen){
+      _provider.close();
+    }
     super.dispose();
   }
 
@@ -153,10 +158,7 @@ class _FilePageState extends State<FilePage> with AutomaticKeepAliveClientMixin 
     super.build(context); //必须添加
 
     var nextleading = IconButton(
-        icon: Icon(
-          Icons.arrow_back_ios,
-          color: Colors.black,
-        ),
+        icon: AppIcons.backIcon,
         onPressed: () {
           ///TODO 返回
           if (rootIndex > 0) {
@@ -180,11 +182,11 @@ class _FilePageState extends State<FilePage> with AutomaticKeepAliveClientMixin 
         children: <Widget>[
           Text(
             '分类',
-            style: TextStyle(color: Colors.black87),
+            style: TextStyle(color: Colors.white),
           ),
           Icon(
             isselected == false ? Icons.arrow_drop_up : Icons.arrow_drop_down,
-            color: Colors.black87,
+            color: Colors.white,
           ),
         ],
       ),
@@ -198,16 +200,19 @@ class _FilePageState extends State<FilePage> with AutomaticKeepAliveClientMixin 
           ? null
           : Text(
               leadingtitle,
-              style: TextStyle(color: Colors.black),
+              style: TextStyle(color: Colors.white),
               overflow: TextOverflow.ellipsis,
             ),
-      backgroundColor: Colors.white,
-      elevation: 0.5,
+      backgroundColor: Constants.themeData.primaryColor,
+      elevation: 0.1,
       actions: <Widget>[
         IconButton(
-            icon: Icon(
-              Icons.add,
-              color: Colors.black87,
+            icon: CircleAvatar(
+              child: Icon(
+                Icons.add,
+                color: Colors.white,
+              ),
+              backgroundColor: Colors.black87.withOpacity(0.1),
             ),
             onPressed: () {
               debugPrint("点击了添加按钮");
@@ -224,12 +229,16 @@ class _FilePageState extends State<FilePage> with AutomaticKeepAliveClientMixin 
               }));
             }),
         IconButton(
-          icon: Icon(
-            IconData(0xe6a9, fontFamily: Constants.IconFontFamily),
-            color: Colors.black87,
+          icon: CircleAvatar(
+            child: Icon(
+              IconData(0xe6a9, fontFamily: Constants.IconFontFamily),
+              color: Colors.white,
+            ),
+            backgroundColor: Colors.black87.withOpacity(0.1),
           ),
           onPressed: () {
             debugPrint("点击了传输按钮");
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>transferFilePage()));
           },
         ),
         PopupMenuButton(
@@ -266,12 +275,22 @@ class _FilePageState extends State<FilePage> with AutomaticKeepAliveClientMixin 
                         : Colors.black87),
                 value: "select_file",
               ),
+              PopupMenuItem(
+                child: _buildPopupMenuItem(
+                    index: popupMenu[3],
+                    iconName: 0xe639,
+                    title: "刷新列表",
+                    colors: popupMenu[3] == true
+                        ? Colors.blueAccent
+                        : Colors.black87),
+                value: "refresh_file",
+              ),
             ];
           },
-          icon: Icon(
+          child: CircleAvatar(child: Icon(
             Icons.more_horiz,
-            color: Colors.black87,
-          ),
+            color: Colors.white,
+          ),backgroundColor: Colors.black87.withOpacity(0.1),),
           //(Icons.add),
           onSelected: (String selected) {
             print("点击的是$selected");
@@ -282,6 +301,7 @@ class _FilePageState extends State<FilePage> with AutomaticKeepAliveClientMixin 
                     popupMenu[0] = true;
                     popupMenu[1] = false;
                     popupMenu[2] = false;
+                    popupMenu[3] = false;
                   });
                   break;
                 }
@@ -290,6 +310,7 @@ class _FilePageState extends State<FilePage> with AutomaticKeepAliveClientMixin 
                   popupMenu[0] = false;
                   popupMenu[1] = true;
                   popupMenu[2] = false;
+                  popupMenu[3] = false;
                   break;
                 }
               case 'select_file':
@@ -297,6 +318,16 @@ class _FilePageState extends State<FilePage> with AutomaticKeepAliveClientMixin 
                   popupMenu[0] = false;
                   popupMenu[1] = false;
                   popupMenu[2] = true;
+                  popupMenu[3] = false;
+                  break;
+                }
+              case 'refresh_file':
+                {
+                  popupMenu[0] = false;
+                  popupMenu[1] = false;
+                  popupMenu[2] = false;
+                  popupMenu[3] = true;
+                  _doRefresh();
                   break;
                 }
             }
@@ -390,18 +421,20 @@ class _FilePageState extends State<FilePage> with AutomaticKeepAliveClientMixin 
                           child: FlatButton(
                             onPressed: () {
                               //TODO 上传文件
-                              Navigator.push(context, PageRouteBuilder(pageBuilder:
-                                  (BuildContext context, Animation animation,
-                                  Animation secondaryAnimation) {
+                              Navigator.push(context, PageRouteBuilder(
+                                  pageBuilder: (BuildContext context,
+                                      Animation animation,
+                                      Animation secondaryAnimation) {
                                 return SlideTransition(
                                   position: Tween<Offset>(
-                                      begin: Offset(1.0, 0.0), end: Offset(0.0, 0.0))
+                                          begin: Offset(1.0, 0.0),
+                                          end: Offset(0.0, 0.0))
                                       .animate(CurvedAnimation(
-                                      parent: animation, curve: Curves.fastOutSlowIn)),
+                                          parent: animation,
+                                          curve: Curves.fastOutSlowIn)),
                                   child: AddFilePage(rootDIndex: refreshId),
                                 );
                               }));
-
                             },
                             child: Text(
                               '上传文件',
@@ -479,35 +512,35 @@ class _FilePageState extends State<FilePage> with AutomaticKeepAliveClientMixin 
                           issrc_appbar == true
                               ? SizedBox()
                               : Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: <Widget>[
-                              Checkbox(
-                                  value: _cflags[index - 1],
-                                  onChanged: (value) {
-                                    print(_cflags[index - 1]);
-                                    setState(() {
-                                      _cflags[index - 1] = value;
-                                      if (value) {
-                                        fileList
-                                            .add(mockFileData[index - 1]);
-                                        //fileItemBloc.counterEventSink.add(FileAddEvent(data: fileList));
-                                        ///fileList没有数据时候，退出多选模式
-                                      } else {
-                                        fileList.remove(
-                                            mockFileData[index - 1]);
-                                        //fileItemBloc.counterEventSink.add(FileAddEvent(data: fileList));
-                                      }
-                                      if (fileList.length == 0) {
-                                        issrc_appbar = true;
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: <Widget>[
+                                    Checkbox(
+                                        value: _cflags[index - 1],
+                                        onChanged: (value) {
+                                          print(_cflags[index - 1]);
+                                          setState(() {
+                                            _cflags[index - 1] = value;
+                                            if (value) {
+                                              fileList
+                                                  .add(mockFileData[index - 1]);
+                                              //fileItemBloc.counterEventSink.add(FileAddEvent(data: fileList));
+                                              ///fileList没有数据时候，退出多选模式
+                                            } else {
+                                              fileList.remove(
+                                                  mockFileData[index - 1]);
+                                              //fileItemBloc.counterEventSink.add(FileAddEvent(data: fileList));
+                                            }
+                                            if (fileList.length == 0) {
+                                              issrc_appbar = true;
 
-                                        ///顶部
-                                        bloc.counterEventSink
-                                            .add(FalseEvent());
-                                      }
-                                    });
-                                  })
-                            ],
-                          ),
+                                              ///顶部
+                                              bloc.counterEventSink
+                                                  .add(FalseEvent());
+                                            }
+                                          });
+                                        })
+                                  ],
+                                ),
                         ],
                       ),
                       onTap: () async {
@@ -519,11 +552,11 @@ class _FilePageState extends State<FilePage> with AutomaticKeepAliveClientMixin 
                             ///是文件夹，直接打开
                             leadingtitle = mockFileData[index - 1].fileName;
                             FilePage.testoldData = mockFileData;
-
                             ///TODO 网络测试
                             FileService.getUserTrerNodes(
                                     tid: mockFileData[index - 1].fileId)
                                 .then((onValue) {
+
                               if (onValue != null)
                                 _provider.insertAll(onValue.fileInfoList);
                               counterBloc.counterEventSink.add(AddEvent());

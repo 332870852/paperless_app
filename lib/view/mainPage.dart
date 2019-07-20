@@ -5,6 +5,8 @@ import 'package:paperless_app/bloc/FileItem_event.dart';
 import 'package:paperless_app/bloc/bottomBar_event.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:paperless_app/bloc/counter_event.dart';
+import 'package:paperless_app/data/FileInfoDb.dart';
+import 'package:paperless_app/domain/FileInfo.dart';
 import 'package:paperless_app/fragment/ablertDialog.dart';
 import 'package:paperless_app/service/FileService.dart';
 import 'filePage.dart';
@@ -28,6 +30,7 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+  FileInfoProvider _provider;
   int _currentIndex;
 
   ///文件页的index
@@ -51,6 +54,7 @@ class _MainPageState extends State<MainPage> {
       srcData = [];
     });
     _renameController = TextEditingController();
+    _provider=_provider = new FileInfoProvider();
   }
 
   void _onTapHandler(int index) {
@@ -63,6 +67,9 @@ class _MainPageState extends State<MainPage> {
   @override
   void dispose() {
     _renameController.dispose();
+    if(_provider.db.isOpen){
+      _provider.close();
+    }
     super.dispose();
   }
 
@@ -170,11 +177,14 @@ class _MainPageState extends State<MainPage> {
                       barrierDismissible: false);
                   if (flag) {
                     //TODO 删除
-                    await setState(() {
-                      fileItemBloc.counterEventSink
-                          .add(FileDelEvent(deldata: fileList));
-                      bloc.counterEventSink.add(FalseEvent());
-                    });
+                    print(fileList);
+                     FileService.deleteFiles(fileList: fileList).then((onValue){
+                       _provider.deleteAll(fileList);
+                     }).then((onValue){
+                       fileItemBloc.counterEventSink
+                           .add(FileDelEvent(deldata: fileList));
+                       bloc.counterEventSink.add(FalseEvent());
+                     });
                     fileList.clear();
                   }
                 }

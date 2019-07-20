@@ -50,7 +50,7 @@ class FileService {
     Map<String, String> map = new Map();
     map.putIfAbsent('tid', () => tid.toString());
     Response respData =
-        await get(method: method + 'user/getUserTrerNodes', requestmap: map);
+        await get(method: method + 'user/getUserTreeNodes', requestmap: map);
     ResponseModel responseModel = ResponseModel.fromJson(respData.data);
 
     ///请求成功
@@ -98,6 +98,7 @@ class FileService {
     }
   }
 
+  ///上传文件
   static Future<TreeNode> uploadFiles(
       {@required String tid, List<File> files}) async {
     print(tid);
@@ -123,4 +124,65 @@ class FileService {
       throw responseModel.errors[0];
     }
   }
+
+  ///用户删除文件接口
+ static Future<List<dynamic>> deleteFiles ({@required List<FileInfo> fileList})async{
+    List<int>ids=[];
+    List<int>tids=[];
+    List<dynamic>suce=[];
+   for(FileInfo f in fileList ){
+     if(f.fileType==0)
+       tids.add(f.fileId);
+     else
+       ids.add(f.fileId);
+   }
+   if(ids.length>0)
+     {
+      var l1= await deletefile(ids: ids);
+      print(l1);
+      if(l1!=null)
+      suce.addAll(l1);
+     }
+   if(tids.length>0)
+    {
+      var l2= fdelete(tids: tids);
+      if(l2!=null)
+      suce.add(l2);
+    }
+    return suce;
+
+ }
+
+ ///删除文件
+  static Future<List<dynamic>> deletefile({@required List<int> ids})async{
+    Map<String, dynamic> map = new Map();
+    map.putIfAbsent('ids', () => ids);
+    Response respData =
+    await post(method: method + '/user/delete', requestmap: map);
+    ResponseModel responseModel = ResponseModel.fromJson(respData.data);
+    if (responseModel.code == 1) {
+      print(responseModel.data);
+      return responseModel.data;
+    } else {
+      ///失败原因
+      throw responseModel.errors[0];
+    }
+  }
+
+  ///删除文件夹
+  static Future<List<dynamic>> fdelete({@required List<int> tids})async{
+    Map<String, dynamic> map = new Map();
+    map.putIfAbsent('tid', () => tids);
+    Response respData =
+    await post(method: method + 'user/fdelete', requestmap: map);
+    ResponseModel responseModel = ResponseModel.fromJson(respData.data);
+    if (responseModel.code == 1) {
+      print(responseModel.data);
+      return tids;
+    } else {
+      ///失败原因
+      throw responseModel.errors[0];
+    }
+  }
+
 }

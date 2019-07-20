@@ -34,6 +34,11 @@ class IconUtils{
           _avatarIcon=Image.asset('assets/images/docx.png',width: Constants.ContactAvatarSize,height: Constants.ContactAvatarSize,);
           break;
         }
+      case 17: //
+        {
+          _avatarIcon=Image.asset('assets/images/zip.png',width: Constants.ContactAvatarSize,height: Constants.ContactAvatarSize,);
+          break;
+        }
       case 28: //
         {
           _avatarIcon=Image.asset('assets/images/txt.png',width: Constants.ContactAvatarSize,height: Constants.ContactAvatarSize,);
