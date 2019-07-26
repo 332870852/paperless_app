@@ -238,7 +238,7 @@ class _FilePageState extends State<FilePage>
           ),
           onPressed: () {
             debugPrint("点击了传输按钮");
-            Navigator.push(context, MaterialPageRoute(builder: (context)=>transferFilePage()));
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>transferFilePage(fileList: null,)));
           },
         ),
         PopupMenuButton(

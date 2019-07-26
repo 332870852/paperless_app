@@ -1,8 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:paperless_app/constants.dart';
 import 'package:paperless_app/view/fileview/listFilePage.dart';
 
 class transferFilePage extends StatefulWidget {
+  final List<File> fileList;
+  final int initIndex;
+  transferFilePage({Key key,@required this.fileList,this.initIndex}):super(key:key);
   _transferFilePageState createState() => _transferFilePageState();
 }
 
@@ -23,8 +28,10 @@ class _transferFilePageState extends State<transferFilePage> with SingleTickerPr
   @override
   void initState() {
     // TODO: implement initState
+    _currentIndex=widget.initIndex;
     super.initState();
     _tabController=new TabController(initialIndex:_currentIndex,length: 2, vsync: this);
+
   }
 
   @override
@@ -69,9 +76,10 @@ class _transferFilePageState extends State<transferFilePage> with SingleTickerPr
           ),
         ),
         body: TabBarView(
+          controller: _tabController,
           children: <Widget>[
             DownFileListPage(fList: null,),
-            UpFileListPage(fList: null,),
+            UpFileListPage(fList: widget.fileList,),
           ],
         ),
       ),

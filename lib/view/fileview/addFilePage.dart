@@ -4,6 +4,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:paperless_app/service/FileService.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
+import 'package:paperless_app/view/fileview/listFilePage.dart';
+import 'package:paperless_app/view/fileview/transferFilePage.dart';
 import 'package:photo/photo.dart';
 import 'package:photo_manager/photo_manager.dart';
 // import 'package:file_picker/file_picker.dart';
@@ -91,16 +93,17 @@ class _AddFilePageState extends State<AddFilePage> {
                             await _pickImage(pickType: PickType.onlyImage).then((onValue) {
                               print("上传。。。。。。${onValue}");
                               if(onValue!=null&&onValue.length>0)
-                              FileService.uploadFiles(
-                                      tid: widget.rootDIndex.toString(),
-                                      files: onValue)
-                                  .then((onValue) {
-                                Fluttertoast.showToast(msg: '上传成功');
-                              }).catchError((onError) {
-                                Fluttertoast.showToast(msg: onError.toString());
-                              });
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>transferFilePage(initIndex:1,fileList: onValue,)));
+//                              FileService.uploadFiles(
+//                                      tid: widget.rootDIndex.toString(),
+//                                      files: onValue)
+//                                  .then((onValue) {
+//                                Fluttertoast.showToast(msg: '上传成功');
+//                              }).catchError((onError) {
+//                                Fluttertoast.showToast(msg: onError.toString());
+//                              });
                             });
-                            Navigator.pop(context);
+                            //Navigator.pop(context);
                           },
                         ),
                       ),

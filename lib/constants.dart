@@ -14,7 +14,7 @@ class Constants {
           display3: TextStyle(color: Colors.white, fontSize: 18)));
 
   ///全局主题
-  static const DividerWith = 1.0;
+  static const DividerWith = 0.5;
   static const ContactAvatarSize = 30.0;
 }
 

@@ -20,7 +20,7 @@ Future<Response> get({@required String method, Map requestmap}) async {
   Response response;
   Dio dio = new Dio();
   try {//b9995e80-314a-4d5f-896c-1999ffa19639
-    dio.options.headers.putIfAbsent("token", ()=>"60909d64-f64a-4d4d-a8f3-955a52fd9c76");//
+    dio.options.headers.putIfAbsent("token", ()=>"857b8e2a-91ad-4fb1-b382-8067c2720e34");//
     response =  await dio.get(url, data: map);
     if (response.statusCode == 200) {
       //print(response);
@@ -56,8 +56,11 @@ Future<Response> post({@required String method, Map requestmap}) async {
   Response response;
   Dio dio = new Dio();
   try {//b9995e80-314a-4d5f-896c-1999ffa19639
-    dio.options.headers.putIfAbsent("token", ()=>"60909d64-f64a-4d4d-a8f3-955a52fd9c76");//
-    response =  await dio.post(url, data: formData);
+    dio.options.headers.putIfAbsent("token", ()=>"857b8e2a-91ad-4fb1-b382-8067c2720e34");//
+    response =  await dio.post(url, data: formData,onUploadProgress: (send,total){
+
+      print("send: $send, total: $total");
+    });
     if (response.statusCode == 200) {
       print(response);
       return response;
