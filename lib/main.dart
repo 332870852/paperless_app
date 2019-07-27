@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:paperless_app/constants.dart' show Constants;
+import 'package:paperless_app/view/LoginPage.dart';
 import 'package:paperless_app/view/filePage.dart';
 import 'package:paperless_app/view/fileview/transferFilePage.dart';
 import 'view/mainPage.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -12,9 +14,10 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: Constants.themeData,
       //home: MyHomePage(title: 'Flutter Demo Home Page'),
-      initialRoute: '/',
+      initialRoute: '/LoginPage',
       routes: {
-        '/': (context)=> MyHomePage(title: 'Flutter Demo Home Page'),
+        '/': (context) => MyHomePage(title: 'Flutter Demo Home Page'),
+        '/LoginPage': (context) => LoginPage(),
       },
     );
   }
@@ -30,10 +33,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   @override
   Widget build(BuildContext context) {
     return MainPage();
   }
-
 }

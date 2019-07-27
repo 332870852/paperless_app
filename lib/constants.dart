@@ -115,6 +115,9 @@ class AppIcons {
     size: 25.0,
     color: Colors.white,
   );
+
+  static const  tencent_qq = IconData(0xe63b, fontFamily: Constants.IconFontFamily);
+  static const  weixin = IconData(0xe63c, fontFamily: Constants.IconFontFamily);
 }
 
 class AppColors {

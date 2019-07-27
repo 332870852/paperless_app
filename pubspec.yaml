@@ -29,6 +29,8 @@ dependencies:
   image_picker: ^0.4.12+1  #拍照和选取照片插件
   multi_image_picker: ^1.0.53 #图片多选插件
   photo: ^0.2.0
+  flutter_screenutil: ^0.4.2
+  xlive_switch: ^1.0.5
  # file_picker: ^1.0.0 #文件选择
 
   # The following adds the Cupertino Icons font to your application.
@@ -77,6 +79,7 @@ flutter:
    - assets/images/zip.png
    - assets/images/upload.png
    - assets/images/download.png
+   - assets/brg/head.jpg
   # To add assets to your application, add an assets section, like this:
   # assets:
   #  - images/a_dot_burr.jpeg
