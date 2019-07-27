@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:paperless_app/constants.dart' show Constants;
+import 'package:paperless_app/view/filePage.dart';
+import 'package:paperless_app/view/fileview/transferFilePage.dart';
 import 'view/mainPage.dart';
 void main() => runApp(MyApp());
 
@@ -9,7 +11,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: Constants.themeData,
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      //home: MyHomePage(title: 'Flutter Demo Home Page'),
+      initialRoute: '/',
+      routes: {
+        '/': (context)=> MyHomePage(title: 'Flutter Demo Home Page'),
+      },
     );
   }
 }

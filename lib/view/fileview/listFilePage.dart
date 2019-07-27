@@ -27,11 +27,10 @@ Future<dynamic> addFile(List<File> fList) async {
    fileInfo.fsize=f.lengthSync();
     data.add(fileInfo);
   }
-
   return data;
 }
 
-class _UpFileListPageState extends State<UpFileListPage> {
+class _UpFileListPageState extends State<UpFileListPage>{
   String tag = "全部暂停";
   var selected = false;
 
@@ -112,6 +111,7 @@ class _UpFileListPageState extends State<UpFileListPage> {
               });
         });
   }
+
 }
 
 class DownFileListPage extends StatefulWidget {

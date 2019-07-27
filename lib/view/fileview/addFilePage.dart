@@ -102,6 +102,7 @@ class _AddFilePageState extends State<AddFilePage> {
 //                              }).catchError((onError) {
 //                                Fluttertoast.showToast(msg: onError.toString());
 //                              });
+
                             });
                             //Navigator.pop(context);
                           },
