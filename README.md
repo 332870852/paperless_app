@@ -13,19 +13,18 @@ A new Flutter application.
   目前flutter项目正在开发app上的文件管理部分，包括文件增删成功、新建、重命名、批量上传下载等...
 ## 微信小程序效果(部分)
 <div>
-<img src="http://118.24.89.101:8080/pagess/wx1.jpg" width="30%" height="50%"/>
-<img src="http://118.24.89.101:8080/pagess/wx2.jpg" width="30%" height="50%"/>
-<img src="http://118.24.89.101:8080/pagess/wx3.jpg" width="30%" height="50%"/>
-<img src="http://118.24.89.101:8080/pagess/wx4.jpg" width="30%" height="50%"/>
-<img src="http://118.24.89.101:8080/pagess/wx5.jpg" width="30%" height="50%"/>
-<img src="http://118.24.89.101:8080/pagess/wx6.jpg" width="30%" height="50%"/>
+<img src="display/9.jpg" width="30%" height="50%"/>
+<img src="display/5.jpg" width="30%" height="50%"/>
+<img src="display/8.jpg" width="30%" height="50%"/>
+<img src="display/7.jpg" width="30%" height="50%"/>
+<img src="display/10.jpg" width="30%" height="50%"/>
+<img src="display/6.jpg" width="30%" height="50%"/>
 </div>
 
 ## Flutter进度效果
-![image6](http://118.24.89.101:8080/pagess/1.jpg)
-![image7](http://118.24.89.101:8080/pagess/2.jpg)
-![image8](http://118.24.89.101:8080/pagess/3.jpg)
-![image9](http://118.24.89.101:8080/pagess/4.jpg)
+<img src="display/4.jpg" width="30%" height="50%"/>
+<img src="display/2.jpg" width="30%" height="50%"/>
+<img src="display/3.jpg" width="30%" height="50%"/>
 ## Getting Started
 
 # 留言

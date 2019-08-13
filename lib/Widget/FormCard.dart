@@ -3,12 +3,17 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:xlive_switch/xlive_switch.dart';
 class FormCard extends StatefulWidget   {
+
+  final TextEditingController nameController;
+  final TextEditingController pswController;
+
+  FormCard({ Key key,@required this.nameController,@ required this.pswController}):super(key:key);
   _FormCardState createState()=> new _FormCardState();
 }
 
 class _FormCardState extends State<FormCard>{
-  TextEditingController _nameController;
-  TextEditingController _pswController;
+  //TextEditingController _nameController;
+  //TextEditingController _pswController;
   bool _passWordVisible = false; //密码是否可见
   bool _rememberMe = false; //记住用户
   bool _load = false; //加载状态
@@ -18,15 +23,16 @@ class _FormCardState extends State<FormCard>{
   void initState() {
     // TODO: implement initState
     super.initState();
-    _nameController=TextEditingController();
-    _pswController=TextEditingController();
+   // _nameController=TextEditingController();
+   // _pswController=TextEditingController();
+
   }
 
   @override
   void dispose() {
     // TODO: implement dispose
-    _nameController.dispose();
-    _pswController.dispose();
+    //_nameController.dispose();
+    //_pswController.dispose();
     super.dispose();
   }
   @override
@@ -90,7 +96,7 @@ class _FormCardState extends State<FormCard>{
                   color: Colors.black87,
                     fontSize: ScreenUtil.getInstance().setSp(40),
                     fontFamily: 'SF-UI-Display-Regular'),
-                controller: _nameController,
+                controller: widget.nameController,
                 keyboardType: TextInputType.phone,
                 inputFormatters: [
                   LengthLimitingTextInputFormatter(20),
@@ -112,7 +118,7 @@ class _FormCardState extends State<FormCard>{
                       onPressed: () =>
                           setState(
                                   () =>
-                                  _nameController.clear()),
+                                  widget.nameController.clear()),
                       icon: Icon(Icons.highlight_off)),
                 ),
                 validator: (String value) {
@@ -138,7 +144,7 @@ class _FormCardState extends State<FormCard>{
                     fontSize: ScreenUtil.getInstance().setSp(40),
                     fontFamily: 'SF-UI-Display-Regular'),
                 obscureText: !this._passWordVisible,
-                controller: _pswController,
+                controller: widget.pswController,
                 decoration: InputDecoration(
                   border: InputBorder.none,
                    filled: true,
