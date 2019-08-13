@@ -22,9 +22,11 @@ A new Flutter application.
 </div>
 
 ## Flutter进度效果
+<div>
 <img src="display/4.jpg" width="30%" height="50%"/>
 <img src="display/2.jpg" width="30%" height="50%"/>
 <img src="display/3.jpg" width="30%" height="50%"/>
+</div>
 ## Getting Started
 
 # 留言
