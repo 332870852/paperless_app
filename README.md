@@ -27,7 +27,8 @@ A new Flutter application.
 <img src="display/2.jpg" width="30%" height="50%"/>
 <img src="display/3.jpg" width="30%" height="50%"/>
 </div>
-## Getting Started
+## 部分成果或奖项
+<img src="display/11.png"  height="80%"/>
 
 # 留言
 希望热心网友一起努力改进项目，完善项目的不足之处, 后端暂不开源，还在完善中...
